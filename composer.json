@@ -1,0 +1,19 @@
+{
+    "name": "niklasdao/niklasdao",
+    "description": "Data access object",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "niklas",
+            "email": "Niklas.Wockenfuss@continue.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Niklas\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}

@@ -5,15 +5,16 @@
  * Date: 25.07.17
  * Time: 09:57
  */
+namespace Niklas;
 
-class NiklasDAOResult
+class DAOResult
 {
     /**
-     * @var mysqli_result
+     * @var \mysqli_result
      */
     private $mResult;
 
-    public function __construct(mysqli_result $result)
+    public function __construct(\mysqli_result $result)
     {
         $this->mResult = $result;
     }
@@ -39,7 +40,7 @@ class NiklasDAOResult
                 return $objAr;
 
             } else {
-            throw new Exception("prototype must be a object:");
+            throw new \Exception("prototype must be a object:");
 
         }
 
@@ -53,7 +54,7 @@ class NiklasDAOResult
                 return false;
             }
         } else {
-            throw new Exception("prototype must be a object:");
+            throw new \Exception("prototype must be a object:");
         }
     }
 
@@ -65,12 +66,12 @@ class NiklasDAOResult
                 return false;
             }
         } else {
-            throw new Exception("prototype must be a object:");
+            throw new \Exception("prototype must be a object:");
         }
     }
 
     public function each(callable $function) {
-        $ref = new ReflectionFunction($function);
+        $ref = new \ReflectionFunction($function);
         if($ref->getParameters()[0]->isArray()) {
             while ($row = mysqli_fetch_assoc($this->mResult)) {
                 $function($row);

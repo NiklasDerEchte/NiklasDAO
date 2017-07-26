@@ -5,19 +5,20 @@
  * Date: 24.07.17
  * Time: 10:29
  */
-require "NiklasDAOResult.php";
-class NiklasDAO
+namespace Niklas;
+
+class DAO
 {
     /**
-     * @var mysqli
+     * @var \mysqli
      */
     private $mConn;
 
     public function __construct($host, $user, $pass, $db)
     {
-        $this->mConn = new mysqli($host, $user, $pass, $db);
+        $this->mConn = new \mysqli($host, $user, $pass, $db);
         if($this->mConn->connect_error) {
-            throw new Exception("Connection failed: {$this->mConn->connect_error}");
+            throw new \Exception("Connection failed: {$this->mConn->connect_error}");
         }
 
     }
@@ -38,7 +39,7 @@ class NiklasDAO
         $query .= $tableName;
         foreach ($object as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
-                throw new Exception("Security Exception: invalid key '$key'");
+                throw new \Exception("Security Exception: invalid key '$key'");
             }
             $column[] = "`$key`";
             if($value === null) {
@@ -54,28 +55,28 @@ class NiklasDAO
         $query .= " ($columnStr) VALUES ($valuesStr);";
 
         if ($this->mConn->query($query) == FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
         $object->id = $this->mConn->insert_id;
     }
 
     public function delete($object) {
         if($object->id === null) {
-            throw new Exception("id can not be null");
+            throw new \Exception("id can not be null");
         }
         $tableName = get_class($object);
         $query = "DELETE FROM " . $tableName . " WHERE ";
         $id = $object->id;
         $query .= "id=" . $id . ";";
         if ($this->mConn->query($query) == FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
 
     }
 
     private function _update($object) {
         if($object->id === null) {
-            throw new Exception("id can not be null");
+            throw new \Exception("id can not be null");
         }
         $id = $object->id;
         $tableName = get_class($object);
@@ -83,14 +84,14 @@ class NiklasDAO
         $param = array();
         foreach ($object as $key=>$value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
-                throw new Exception("Security Exception: invalid key '$key'");
+                throw new \Exception("Security Exception: invalid key '$key'");
             }
             $param[] = "`$key` = '{$this->mConn->real_escape_string($value)}'";
         }
         $paramStr = implode(", ", $param);
         $query .= $paramStr . " WHERE id = " . $id;
         if ($this->mConn->query($query) == FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
 
     }
@@ -98,7 +99,7 @@ class NiklasDAO
     public function select($tableName, $column, $value) {
         $query = "SELECT * FROM " . $tableName . " WHERE " . $column . "=" . "'{$this->mConn->real_escape_string($value)}'" . ";";
         if (($result = $this->mConn->query($query)) === FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
         $row = mysqli_fetch_array($result);
         return $row;
@@ -109,7 +110,7 @@ class NiklasDAO
         $restrictions = [];
         foreach ($restriction as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
-                throw new Exception("Security Exception: invalid key '$key'");
+                throw new \Exception("Security Exception: invalid key '$key'");
             }
             $restrictions[] = "`$key` = '{$this->mConn->real_escape_string($value)}'";
         }
@@ -118,15 +119,15 @@ class NiklasDAO
         }
 
         if (($result = $this->mConn->query($query)) === FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
         if ($result->num_rows === 0) {
-            throw new Exception("No matching dataset");
+            throw new \Exception("No matching dataset");
         }
         $row = $result->fetch_assoc();
         foreach ($object as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
-                throw new Exception("Security Exception: invalid key '$key'");
+                throw new \Exception("Security Exception: invalid key '$key'");
             }
             $object->$key = $row[$key];
         }
@@ -146,10 +147,10 @@ class NiklasDAO
         $finalQuery .= ";";
 
         if (($result = $this->mConn->query($finalQuery)) === FALSE) {
-            throw new Exception("Query failed: ($query) {$this->mConn->error}");
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
 
-        return new NiklasDAOResult($result);
+        return new DAOResult($result);
     }
 
 }
