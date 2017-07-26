@@ -11,9 +11,13 @@
     ],
     "autoload": {
         "psr-4": {
+            "Niklas\\Test\\": "test/",
             "Niklas\\": "src/"
         }
     },
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "ext-mysqli": "*",
+        "nette/tester": "^1.7"
+    }
 }
