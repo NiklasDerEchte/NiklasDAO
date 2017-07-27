@@ -154,4 +154,16 @@ class DAO
         return new DAOResult($result);
     }
 
+    private static $sInstance = null;
+
+    public static function Init(self $instance) {
+        self::$sInstance = $instance;
+    }
+
+    public static function Get() :self {
+        if(self::$sInstance === null) {
+            throw new \Exception("Uninitialized DAO, call DAO::Init() first!");
+        }
+        return self::$sInstance;
+    }
 }
