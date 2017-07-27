@@ -53,6 +53,7 @@ class DAOResult
                 foreach ($row as $key => $value) {
                     $prototyp->$key = $value;
                 }
+                return true;
             } else {
                 return false;
             }
