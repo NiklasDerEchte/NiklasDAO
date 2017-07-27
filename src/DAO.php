@@ -139,11 +139,11 @@ class DAO
         $finalQuery = "";
         $querys = explode("?", $query);
         for ($i = 0; $i < count($querys); $i++) {
-           if ($i < count($querys)-1) {
-               $finalQuery .= $querys[$i] . "'{$this->mConn->real_escape_string($values[$i])}'";
-           } else {
-               $finalQuery .= $querys[$i];
-           }
+            if ($i < count($querys)-1) {
+                $finalQuery .= $querys[$i] . "'{$this->mConn->real_escape_string($values[$i])}'";
+            } else {
+                $finalQuery .= $querys[$i];
+            }
         }
         $finalQuery .= ";";
 
@@ -154,8 +154,12 @@ class DAO
         return new DAOResult($result);
     }
 
-    private function _GetTableName($className) {
-        return basename($className);
+    private function _GetTableName($path) {
+        if(is_object($path)) {
+            $name = str_replace("\\","/", get_class($path));
+            return basename($name);
+        }
+        return basename($path);
     }
 
     private static $sInstance = null;
