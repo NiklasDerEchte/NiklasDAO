@@ -84,8 +84,7 @@ class DAO
 
         $nameStr = explode("\\", $tableName);
         if($nameStr !== "") {
-            end($nameStr);
-            $tableName = value($nameStr);
+            $tableName = end($nameStr);
         }
         $newName = lcfirst($tableName);
         $tableName = $newName;
