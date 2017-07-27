@@ -35,7 +35,7 @@ class DAO
         $column = array();
         $values = array();
         $query = "INSERT INTO ";
-        $tableName = get_class($object);
+        $tableName = $this->_GetTableName($object);
         $query .= $tableName;
         foreach ($object as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
@@ -64,7 +64,7 @@ class DAO
         if($object->id === null) {
             throw new \Exception("id can not be null");
         }
-        $tableName = get_class($object);
+        $tableName = $this->_GetTableName($object);
         $query = "DELETE FROM " . $tableName . " WHERE ";
         $id = $object->id;
         $query .= "id=" . $id . ";";
@@ -79,7 +79,7 @@ class DAO
             throw new \Exception("id can not be null");
         }
         $id = $object->id;
-        $tableName = get_class($object);
+        $tableName = $this->_GetTableName($object);
 
         $query = "UPDATE " . $tableName . " SET ";
         $param = array();
@@ -107,7 +107,7 @@ class DAO
     }
 
     public function load($object, array $restriction) {
-        $query = "SELECT * FROM " . get_class($object);
+        $query = "SELECT * FROM " . $this->_GetTableName($object);
         $restrictions = [];
         foreach ($restriction as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
@@ -152,6 +152,10 @@ class DAO
         }
 
         return new DAOResult($result);
+    }
+
+    private function _GetTableName($className) {
+        return basename($className);
     }
 
     private static $sInstance = null;
