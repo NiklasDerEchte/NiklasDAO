@@ -80,6 +80,16 @@ class DAO
         }
         $id = $object->id;
         $tableName = get_class($object);
+
+
+        $nameStr = explode("\\", $tableName);
+        if($nameStr !== "") {
+            end($nameStr);
+            $tableName = value($nameStr);
+        }
+        $newName = lcfirst($tableName);
+        $tableName = $newName;
+
         $query = "UPDATE " . $tableName . " SET ";
         $param = array();
         foreach ($object as $key=>$value) {
