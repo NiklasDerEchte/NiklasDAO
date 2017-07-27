@@ -81,14 +81,6 @@ class DAO
         $id = $object->id;
         $tableName = get_class($object);
 
-
-        $nameStr = explode("\\", $tableName);
-        if($nameStr !== "") {
-            $tableName = end($nameStr);
-        }
-        $newName = lcfirst($tableName);
-        $tableName = $newName;
-
         $query = "UPDATE " . $tableName . " SET ";
         $param = array();
         foreach ($object as $key=>$value) {
@@ -115,16 +107,7 @@ class DAO
     }
 
     public function load($object, array $restriction) {
-        $tableName = get_class($object);
-        $nameStr = explode("\\", $tableName);
-        if($nameStr !== "") {
-            $tableName = end($nameStr);
-        }
-        $newName = lcfirst($tableName);
-        $tableName = $newName;
-
-
-        $query = "SELECT * FROM " . $tableName;
+        $query = "SELECT * FROM " . get_class($object);
         $restrictions = [];
         foreach ($restriction as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
