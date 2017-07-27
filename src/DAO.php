@@ -115,7 +115,16 @@ class DAO
     }
 
     public function load($object, array $restriction) {
-        $query = "SELECT * FROM " . get_class($object);
+        $tableName = get_class($object);
+        $nameStr = explode("\\", $tableName);
+        if($nameStr !== "") {
+            $tableName = end($nameStr);
+        }
+        $newName = lcfirst($tableName);
+        $tableName = $newName;
+
+
+        $query = "SELECT * FROM " . $tableName;
         $restrictions = [];
         foreach ($restriction as $key => $value) {
             if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
