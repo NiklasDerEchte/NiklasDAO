@@ -74,6 +74,10 @@ class DAOResult
         }
     }
 
+    public function create() {
+        return mysqli_query($this->mResult);
+    }
+
     public function each(callable $function) {
         $ref = new \ReflectionFunction($function);
         if($ref->getParameters()[0]->isArray()) {
