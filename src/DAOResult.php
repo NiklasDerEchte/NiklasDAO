@@ -65,7 +65,11 @@ class DAOResult
     public function first($prototyp) {
         if(is_object($prototyp)) {
             if($this->numRows() > 0) {
-                return $row = mysqli_fetch_assoc($this->mResult);
+                $row = mysqli_fetch_assoc($this->mResult);
+                foreach ($row as $key => $value) {
+                    $prototyp->$key = $value;
+                }
+                return true;
             } else {
                 return false;
             }
