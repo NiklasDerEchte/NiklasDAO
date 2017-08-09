@@ -24,6 +24,7 @@ class DAO
     }
 
     public function store($object) {
+        $object->test;
         if($object->id === null) {
             $this->_insert($object);
         } else {
@@ -54,6 +55,7 @@ class DAO
 
         $query .= " ($columnStr) VALUES ($valuesStr);";
 
+
         if ($this->mConn->query($query) == FALSE) {
             throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
@@ -74,7 +76,7 @@ class DAO
 
     }
 
-    private function _update($object) {
+    public function _update($object) {
         if($object->id === null) {
             throw new \Exception("id can not be null");
         }
