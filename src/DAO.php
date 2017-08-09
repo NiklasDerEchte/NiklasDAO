@@ -32,7 +32,7 @@ class DAO
         }
     }
 
-    private function _insert($object) {
+    public function _insert($object) {
         $column = array();
         $values = array();
         $query = "INSERT INTO ";

@@ -41,9 +41,7 @@ class DAOResult
 
             } else {
             throw new \Exception("prototype must be a object:");
-
         }
-
     }
 
     public function one($prototyp) {
