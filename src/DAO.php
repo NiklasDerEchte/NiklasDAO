@@ -24,7 +24,6 @@ class DAO
     }
 
     public function store($object) {
-        $object->test;
         if($object->id === null) {
             $this->_insert($object);
         } else {
