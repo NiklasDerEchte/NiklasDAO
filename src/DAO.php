@@ -125,7 +125,7 @@ class DAO
             $param[] = "`$key` = '{$this->mConn->real_escape_string($value)}'";
         }
         $paramStr = implode(", ", $param);
-        $query .= $paramStr . " WHERE $columne = " . $val;
+        $query .= $paramStr . " WHERE $columne = '$val'";
         if ($this->mConn->query($query) == FALSE) {
             throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
