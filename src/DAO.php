@@ -107,8 +107,8 @@ class DAO
         return $row;
     }
 
-    public function _updateCustomColumn($object, $columne, $value) {
-        if($value === null) {
+    public function _updateCustomColumn($object, $columne, $val) {
+        if($val === null) {
             throw new \Exception("value can not be null");
         }
         if($columne === null) {
@@ -125,7 +125,7 @@ class DAO
             $param[] = "`$key` = '{$this->mConn->real_escape_string($value)}'";
         }
         $paramStr = implode(", ", $param);
-        $query .= $paramStr . " WHERE $columne = " . $value;
+        $query .= $paramStr . " WHERE $columne = " . $val;
         if ($this->mConn->query($query) == FALSE) {
             throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
