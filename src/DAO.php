@@ -107,6 +107,30 @@ class DAO
         return $row;
     }
 
+    public function _updateCustomColumn($object, $columne, $value) {
+        if($value === null) {
+            throw new \Exception("value can not be null");
+        }
+        if($columne === null) {
+            throw new \Exception("columne can not be null");
+        }
+        $tableName = $this->_GetTableName($object);
+
+        $query = "UPDATE " . $tableName . " SET ";
+        $param = array();
+        foreach ($object as $key=>$value) {
+            if ( ! preg_match("/^[a-zA-Z0-9_-]+$/", $key)) {
+                throw new \Exception("Security Exception: invalid key '$key'");
+            }
+            $param[] = "`$key` = '{$this->mConn->real_escape_string($value)}'";
+        }
+        $paramStr = implode(", ", $param);
+        $query .= $paramStr . " WHERE $columne = " . $value;
+        if ($this->mConn->query($query) == FALSE) {
+            throw new \Exception("Query failed: ($query) {$this->mConn->error}");
+        }
+    }
+
     public function load($object, array $restriction) {
         $query = "SELECT * FROM " . $this->_GetTableName($object);
         $restrictions = [];
