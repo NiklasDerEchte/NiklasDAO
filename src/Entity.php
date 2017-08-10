@@ -11,7 +11,7 @@ namespace Niklas;
 
 trait Entity
 {
-    public function __construct(array $data)
+    public function __construct(array $data = [])
     {
         $this->load($data);
     }
