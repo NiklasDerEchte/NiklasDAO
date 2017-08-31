@@ -69,7 +69,7 @@ class DAO
         $tableName = $this->_GetTableName($object);
         $query = "DELETE FROM " . $tableName . " WHERE ";
         $id = $object->id;
-        $query .= "id=" . $id . ";";
+        $query .= "id='" . $id . "';";
         if ($this->mConn->query($query) == FALSE) {
             throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
