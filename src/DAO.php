@@ -17,6 +17,7 @@ class DAO
     public function __construct($host, $user, $pass, $db)
     {
         $this->mConn = new \mysqli($host, $user, $pass, $db);
+        $this->mConn->set_charset("utf8");
         if($this->mConn->connect_error) {
             throw new \Exception("Connection failed: {$this->mConn->connect_error}");
         }
@@ -68,7 +69,7 @@ class DAO
         $tableName = $this->_GetTableName($object);
         $query = "DELETE FROM " . $tableName . " WHERE ";
         $id = $object->id;
-        $query .= "id=" . $id . ";";
+        $query .= "id='" . $id . "';";
         if ($this->mConn->query($query) == FALSE) {
             throw new \Exception("Query failed: ($query) {$this->mConn->error}");
         }
