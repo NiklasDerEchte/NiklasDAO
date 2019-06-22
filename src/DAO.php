@@ -14,14 +14,14 @@ class DAO
      */
     private $mConn;
 
-    public function __construct($host, $user, $pass, $db)
+    public function __construct($host, $user, $pass, $db, $charset = "utf8")
     {
         $this->mConn = new \mysqli($host, $user, $pass, $db);
         $this->mConn->set_charset("utf8");
         if($this->mConn->connect_error) {
             throw new \Exception("Connection failed: {$this->mConn->connect_error}");
         }
-
+        $this->mConn->set_charset($charset);
     }
 
     public function store($object) {
