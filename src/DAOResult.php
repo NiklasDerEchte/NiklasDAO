@@ -28,6 +28,7 @@ class DAOResult
                 while ($row[] = mysqli_fetch_assoc($this->mResult)) ;
                 return $row;
             } elseif(is_object($prototype)) {
+                $objAr = [];
                 while ($row = mysqli_fetch_assoc($this->mResult)) {
                     $object = clone $prototype;
 
